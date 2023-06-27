@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS dentists (
 );
 
 
-INSERT INTO products (name, last_name, registration_number)
+INSERT INTO dentists (name, last_name, registration_number)
 	VALUES ('John', 'Doe', '12345'),
 	('Jane', 'Smith', '67890'),
 	('Michael', 'Johnson', '54321'),

@@ -63,6 +63,27 @@ func (h *DentistHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &dentistFounded)
 }
 
+func (h *DentistHandler) Delete(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("Invalid ID"))
+		return
+	}
+
+	erro := h.DentistService.DeleteDentist(id)
+	if erro != nil {
+		if errApi, ok := erro.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(errApi.Status, errApi)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, erro)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, "dentist removed successfully")
+}
+
 // validateEmptys valida que los campos no esten vacios
 func validateEmptys(dentist *domain.Dentist) (bool, error) {
 	switch {

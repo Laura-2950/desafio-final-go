@@ -37,13 +37,22 @@ func (s *SqlStore) CreateDentist(dentist domain.Dentist) (*domain.Dentist, error
 func (s *SqlStore) ReadDentist(id int) (*domain.Dentist, error) {
 	var dentistReturn domain.Dentist
 
-	query := "SELECT * FROM dentist WHERE id = ?;"
+	query := "SELECT * FROM dentists WHERE id = ?;"
 	row := s.DB.QueryRow(query, id)
 	err := row.Scan(&dentistReturn.ID, &dentistReturn.Name, &dentistReturn.LastName, &dentistReturn.RegistrationNumber)
 	if err != nil {
 		return nil, err
 	}
 	return &dentistReturn, nil
+}
+
+func (s *SqlStore) Delete(id int, table string) error {
+	stmt := "DELETE FROM " + table + " WHERE id = ?"
+	_, err := s.DB.Exec(stmt, id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *SqlStore) Exists(code, codeName, table string) bool {
