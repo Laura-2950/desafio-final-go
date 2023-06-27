@@ -34,6 +34,7 @@ func main() {
 		dentistGroup.POST("", dentistHandler.NewDentist)
 		dentistGroup.GET(":id", dentistHandler.GetById)
 		dentistGroup.DELETE(":id", dentistHandler.Delete)
+		dentistGroup.PUT(":id", dentistHandler.Update)
 	}
 
 	r.Run(":8080")

@@ -55,6 +55,27 @@ func (s *SqlStore) Delete(id int, table string) error {
 	return nil
 }
 
+// PUT & PATCH
+func (s *SqlStore) UpdateDentist(dentist domain.Dentist) (*domain.Dentist, error) {
+	query := "UPDATE dentists SET name=?, last_name=?, registration_number=?  WHERE id=?;"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := stmt.Exec(&dentist.Name, &dentist.LastName, &dentist.RegistrationNumber, &dentist.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return nil, err
+	}
+
+	return &dentist, nil
+}
+
 func (s *SqlStore) Exists(code, codeName, table string) bool {
 	var exist bool
 	var id int

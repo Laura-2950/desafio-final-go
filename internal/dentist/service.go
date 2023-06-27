@@ -6,6 +6,7 @@ type IService interface {
 	GetDentistByID(id int) (*domain.Dentist, error)
 	CreateNewDentist(dentist *domain.Dentist) (*domain.Dentist, error)
 	DeleteDentist(id int) error
+	UpdateDentist(id int, dent *domain.Dentist) (*domain.Dentist, error)
 }
 
 type Service struct {
@@ -34,4 +35,20 @@ func (s *Service) DeleteDentist(id int) error {
 		return err
 	}
 	return nil
+}
+
+// PUT
+func (s *Service) UpdateDentist(id int, dent *domain.Dentist) (*domain.Dentist, error) {
+	dentist, err := s.Repository.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+	dentist.Name = dent.Name
+	dentist.LastName = dent.LastName
+
+	dentist, err = s.Repository.Update(dentist)
+	if err != nil {
+		return nil, err
+	}
+	return dentist, nil
 }

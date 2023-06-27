@@ -12,6 +12,7 @@ type IRepository interface {
 	GetByID(id int) (*domain.Dentist, error)
 	CreateNewDentist(dentist *domain.Dentist) (*domain.Dentist, error)
 	DeleteDentist(id int) error
+	Update(dent *domain.Dentist) (*domain.Dentist, error)
 }
 
 type Repository struct {
@@ -46,4 +47,16 @@ func (r *Repository) DeleteDentist(id int) error {
 		return web.NewNotFoundApiError(fmt.Sprintf("dentist_id %d not found", id))
 	}
 	return nil
+}
+
+// PUT y PATCH ???
+func (r *Repository) Update(dent *domain.Dentist) (*domain.Dentist, error) {
+	// if r.Storage.Exists(dent.RegistrationNumber, "registration_name", "dentists") {
+	// 	return nil, web.NewExistsError(fmt.Sprintf("dentist_registrationNumber"))
+	// }
+	dentist, err := r.Storage.UpdateDentist(*dent)
+	if err != nil {
+		return nil, web.NewUpdateError(fmt.Sprintf("error updating dentist"))
+	}
+	return dentist, nil
 }
