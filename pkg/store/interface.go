@@ -7,7 +7,7 @@ type StoreInterface interface {
 	CreateDentist(dentist domain.Dentist) (*domain.Dentist, error)
 	// UpdateDentist(dentist domain.Dentist) (*domain.Dentist, error)
 	// Delete(id int) error
-	// Exist(codeValue string) bool
-	// ExistId(id int) bool
+	Exists(code, codeName, table string) bool
+	ExistId(id int, table string) bool
 	// ReadAllTurn() error
 }
