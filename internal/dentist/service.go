@@ -4,7 +4,7 @@ import "github.com/Laura-2950/desafio-final-go/internal/domain"
 
 type IService interface {
 	GetDentistByID(id int) (*domain.Dentist, error)
-	// CreateNewDentists(dentist *domain.Dentist) (*domain.Dentist, error)
+	CreateNewDentist(dentist *domain.Dentist) (*domain.Dentist, error)
 	// DeleteDentist(id int) error
 }
 
@@ -18,4 +18,12 @@ func (s *Service) GetDentistByID(id int) (*domain.Dentist, error) {
 		return nil, err
 	}
 	return dentist, nil
+}
+
+func (s *Service) CreateNewDentist(dentist *domain.Dentist) (*domain.Dentist, error) {
+	product, err := s.Repository.CreateNewDentist(dentist)
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
 }
