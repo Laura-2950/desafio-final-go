@@ -6,3 +6,9 @@ type Dentist struct {
 	LastName           string `json:"last_name" binding:"required"`
 	RegistrationNumber string `json:"registration_number" binding:"required"`
 }
+
+type RequestDentist struct {
+	Name               string `json:"name,omitempty"`
+	LastName           string `json:"last_name,omitempty"`
+	RegistrationNumber string `json:"registration_number,omitempty"`
+}

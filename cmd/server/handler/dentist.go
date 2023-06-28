@@ -84,7 +84,6 @@ func (h *DentistHandler) Delete(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "dentist removed successfully")
 }
 
-// PUT
 func (h *DentistHandler) Update(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -106,11 +105,11 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 	var dent *domain.Dentist
 	err = ctx.ShouldBindJSON(&dent)
 	if err != nil {
-		ctx.JSON(400, gin.H{"error": "invalid json"})
+		ctx.JSON(400, gin.H{"error": "invalid body"})
 		return
 	}
 
-	valid, err := validateEmptys(dent)
+	valid, err := validateEmptysUpdate(dent)
 	if !valid {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -126,12 +125,60 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, dentist)
+}
 
+func (h *DentistHandler) UpdatePartial(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("Invalid ID"))
+		return
+	}
+
+	_, err = h.DentistService.GetDentistByID(id)
+	if err != nil {
+		if errApi, ok := err.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(errApi.Status, errApi)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	var request *domain.RequestDentist
+	err = ctx.ShouldBindJSON(&request)
+	if err != nil {
+		ctx.JSON(400, gin.H{"error": "invalid json"})
+		return
+	}
+	dentistUpdate := domain.Dentist{
+		Name:               request.Name,
+		LastName:           request.LastName,
+		RegistrationNumber: request.RegistrationNumber,
+	}
+
+	dentist, err := h.DentistService.UpdateDentist(id, &dentistUpdate)
+	if err != nil {
+		if errApi, ok := err.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(errApi.Status, errApi)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
+		return
+	}
+	ctx.JSON(http.StatusOK, dentist)
 }
 
 // validateEmptys valida que los campos no esten vacios
 func validateEmptys(dentist *domain.Dentist) (bool, error) {
 	if dentist.Name == "" || dentist.LastName == "" || dentist.RegistrationNumber == "" {
+		return false, errors.New("fields can't be empty")
+	}
+	return true, nil
+}
+
+func validateEmptysUpdate(dentist *domain.Dentist) (bool, error) {
+	if dentist.Name == "" || dentist.LastName == "" {
 		return false, errors.New("fields can't be empty")
 	}
 	return true, nil

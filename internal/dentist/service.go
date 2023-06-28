@@ -37,14 +37,17 @@ func (s *Service) DeleteDentist(id int) error {
 	return nil
 }
 
-// PUT
 func (s *Service) UpdateDentist(id int, dent *domain.Dentist) (*domain.Dentist, error) {
 	dentist, err := s.Repository.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
-	dentist.Name = dent.Name
-	dentist.LastName = dent.LastName
+	if dent.Name != "" {
+		dentist.Name = dent.Name
+	}
+	if dent.LastName != "" {
+		dentist.LastName = dent.LastName
+	}
 
 	dentist, err = s.Repository.Update(dentist)
 	if err != nil {

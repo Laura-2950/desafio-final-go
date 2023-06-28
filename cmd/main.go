@@ -35,6 +35,7 @@ func main() {
 		dentistGroup.GET(":id", dentistHandler.GetById)
 		dentistGroup.DELETE(":id", dentistHandler.Delete)
 		dentistGroup.PUT(":id", dentistHandler.Update)
+		dentistGroup.PATCH(":id", dentistHandler.UpdatePartial)
 	}
 
 	r.Run(":8080")

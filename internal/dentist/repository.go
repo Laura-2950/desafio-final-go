@@ -49,7 +49,7 @@ func (r *Repository) DeleteDentist(id int) error {
 	return nil
 }
 
-// PUT y PATCH ???
+// PUT y PATCH
 func (r *Repository) Update(dent *domain.Dentist) (*domain.Dentist, error) {
 	dentist, err := r.Storage.UpdateDentist(*dent)
 	if err != nil {
