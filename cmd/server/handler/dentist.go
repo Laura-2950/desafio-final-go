@@ -39,6 +39,7 @@ func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 		return
 	}
 
+	// este puede ser el statusCreated
 	ctx.JSON(http.StatusOK, newDentist)
 }
 
@@ -53,9 +54,11 @@ func (h *DentistHandler) GetById(ctx *gin.Context) {
 	dentistFounded, err := h.DentistService.GetDentistByID(id)
 	if err != nil {
 		if errApi, ok := err.(*web.ErrorApi); ok {
+			// not found ????
 			ctx.AbortWithStatusJSON(errApi.Status, errApi)
 			return
 		}
+		// not found ????
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
 		return
 	}
@@ -92,16 +95,6 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	_, err = h.DentistService.GetDentistByID(id)
-	if err != nil {
-		if errApi, ok := err.(*web.ErrorApi); ok {
-			ctx.AbortWithStatusJSON(errApi.Status, errApi)
-			return
-		}
-		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
-		return
-	}
-
 	var dent *domain.Dentist
 	err = ctx.ShouldBindJSON(&dent)
 	if err != nil {
@@ -132,16 +125,6 @@ func (h *DentistHandler) UpdatePartial(ctx *gin.Context) {
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("Invalid ID"))
-		return
-	}
-
-	_, err = h.DentistService.GetDentistByID(id)
-	if err != nil {
-		if errApi, ok := err.(*web.ErrorApi); ok {
-			ctx.AbortWithStatusJSON(errApi.Status, errApi)
-			return
-		}
-		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
 		return
 	}
 

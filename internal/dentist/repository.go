@@ -53,7 +53,7 @@ func (r *Repository) DeleteDentist(id int) error {
 func (r *Repository) Update(dent *domain.Dentist) (*domain.Dentist, error) {
 	dentist, err := r.Storage.UpdateDentist(*dent)
 	if err != nil {
-		return nil, web.NewUpdateError(fmt.Sprintf("error updating dentist"))
+		return nil, web.NewInternalServerApiError(fmt.Sprintf("error updating dentist"))
 	}
 	return dentist, nil
 }

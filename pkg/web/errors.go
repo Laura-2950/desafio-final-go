@@ -23,11 +23,3 @@ func NewBadRequestApiError(message string) error {
 func NewInternalServerApiError(message string) error {
 	return &ErrorApi{http.StatusInternalServerError, "internal_server_error", message}
 }
-
-func NewUpdateError(message string) error {
-	return &ErrorApi{http.StatusNotFound, "error updating", message}
-}
-
-func NewExistsError(message string) error {
-	return &ErrorApi{http.StatusNotFound, "alredy exists", message}
-}
