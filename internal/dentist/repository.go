@@ -51,9 +51,6 @@ func (r *Repository) DeleteDentist(id int) error {
 
 // PUT y PATCH ???
 func (r *Repository) Update(dent *domain.Dentist) (*domain.Dentist, error) {
-	// if r.Storage.Exists(dent.RegistrationNumber, "registration_name", "dentists") {
-	// 	return nil, web.NewExistsError(fmt.Sprintf("dentist_registrationNumber"))
-	// }
 	dentist, err := r.Storage.UpdateDentist(*dent)
 	if err != nil {
 		return nil, web.NewUpdateError(fmt.Sprintf("error updating dentist"))

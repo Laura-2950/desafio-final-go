@@ -1,10 +1,12 @@
+DROP DATABASE IF EXISTS dental_clinic;
+CREATE DATABASE dental_clinic;
+
 CREATE TABLE IF NOT EXISTS dentists (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     registration_number VARCHAR(255) NOT NULL
 );
-
 
 INSERT INTO dentists (name, last_name, registration_number)
 	VALUES ('John', 'Doe', '12345'),

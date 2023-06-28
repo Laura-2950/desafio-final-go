@@ -29,7 +29,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("ping", func(ctx *gin.Context) { ctx.String(http.StatusOK, "pong") })
-	dentistGroup := r.Group("/dentist")
+	dentistGroup := r.Group("/dentists")
 	{
 		dentistGroup.POST("", dentistHandler.NewDentist)
 		dentistGroup.GET(":id", dentistHandler.GetById)
