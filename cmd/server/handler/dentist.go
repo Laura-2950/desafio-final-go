@@ -20,12 +20,12 @@ func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&dentist)
 	if err != nil {
-		ctx.JSON(400, gin.H{"error": "invalid dentist"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("invalid body"))
 		return
 	}
 	valid, err := validateEmptys(dentist)
 	if !valid {
-		ctx.JSON(400, gin.H{"error": err.Error()})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
 	}
 
@@ -39,8 +39,7 @@ func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 		return
 	}
 
-	// este puede ser el statusCreated
-	ctx.JSON(http.StatusOK, newDentist)
+	ctx.JSON(http.StatusCreated, newDentist)
 }
 
 func (h *DentistHandler) GetById(ctx *gin.Context) {
@@ -54,11 +53,9 @@ func (h *DentistHandler) GetById(ctx *gin.Context) {
 	dentistFounded, err := h.DentistService.GetDentistByID(id)
 	if err != nil {
 		if errApi, ok := err.(*web.ErrorApi); ok {
-			// not found ????
 			ctx.AbortWithStatusJSON(errApi.Status, errApi)
 			return
 		}
-		// not found ????
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
 		return
 	}
@@ -98,13 +95,13 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 	var dent *domain.Dentist
 	err = ctx.ShouldBindJSON(&dent)
 	if err != nil {
-		ctx.JSON(400, gin.H{"error": "invalid body"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("invalid body"))
 		return
 	}
 
 	valid, err := validateEmptysUpdate(dent)
 	if !valid {
-		ctx.JSON(400, gin.H{"error": err.Error()})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
 	}
 
@@ -131,7 +128,7 @@ func (h *DentistHandler) UpdatePartial(ctx *gin.Context) {
 	var request *domain.RequestDentist
 	err = ctx.ShouldBindJSON(&request)
 	if err != nil {
-		ctx.JSON(400, gin.H{"error": "invalid json"})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("invalid body"))
 		return
 	}
 	dentistUpdate := domain.Dentist{

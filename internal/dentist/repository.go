@@ -40,11 +40,11 @@ func (r *Repository) GetByID(id int) (*domain.Dentist, error) {
 
 func (r *Repository) DeleteDentist(id int) error {
 	if r.Storage.ExistId(id, "dentists") {
-		return web.NewBadRequestApiError(fmt.Sprintf("nonexistent dentist with id %d.", id))
+		return web.NewBadRequestApiError(fmt.Sprintf("dentist_id %d not found", id))
 	}
 	err := r.Storage.Delete(id, "dentists")
 	if err != nil {
-		return web.NewNotFoundApiError(fmt.Sprintf("dentist_id %d not found", id))
+		return err
 	}
 	return nil
 }
