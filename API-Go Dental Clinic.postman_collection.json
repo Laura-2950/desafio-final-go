@@ -553,7 +553,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"last_name\": \"Prueba\",\r\n    \"address\": \"Prueba\",\r\n    \"dni\": \"107655321\",\r\n    \"registration_date\": \"2023-03-12\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"last_name\": \"Prueba\",\r\n    \"address\": \"Prueba\",\r\n    \"dni\": \"10765532\",\r\n    \"registration_date\": \"20/03/2023\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -608,7 +608,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"last_name\": \"Prueba\",\r\n    \"address\": \"Prueba\",\r\n    \"dni\": \"327685321\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"last_name\": \"Prueba\",\r\n    \"address\": \"Prueba\",\r\n    \"dni\": \"32768532\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -616,14 +616,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/patient",
+							"raw": "http://localhost:8080/patients",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"patient"
+								"patients"
 							]
 						}
 					},
@@ -698,7 +698,8 @@
 									"\r",
 									"pm.test(\"Delete Patient by noneexistet ID\", ()=>{\r",
 									"    pm.expect(response).to.be.an(\"object\");\r",
-									"    pm.expect(response.message).to.contain(\"nonexistent patient with id\");\r",
+									"    pm.expect(response.message).to.contain(\"not found\");\r",
+									"    pm.expect(response.code).to.equal(\"bad_request\");\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -764,7 +765,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"Test\",\r\n    \"last_name\": \"Test\",\r\n    \"address\": \"456 Test\",\r\n    \"dni\": \"9871\",\r\n    \"registration_date\": \"2023-06-02\"\r\n}",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"Test\",\r\n    \"last_name\": \"Test\",\r\n    \"address\": \"Test\",\r\n    \"dni\": \"Test\",\r\n    \"registration_date\": \"2023-06-12\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
