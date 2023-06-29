@@ -2,7 +2,7 @@ package store
 
 import (
 	"database/sql"
-	
+
 	"github.com/Laura-2950/desafio-final-go/internal/domain"
 )
 
@@ -112,7 +112,7 @@ func (s *SqlStore) ExistId(id int, table string) bool {
 	return exist
 }
 
-//-------------------------------Pateint-------------------------------//
+//-------------------------------Patient-------------------------------//
 
 func (s *SqlStore) ReadPatient(id int) (*domain.Patient, error) {
 	var patientReturn domain.Patient
@@ -148,7 +148,7 @@ func (s *SqlStore) UpdatePatient(patient domain.Patient) (*domain.Patient, error
 
 	defer stmt.Close()
 
-	res, err := stmt.Exec( &patient.Name, &patient.LastName, &patient.Address, &patient.Dni,  &patient.RegistrationDate, &patient.ID)
+	res, err := stmt.Exec(&patient.Name, &patient.LastName, &patient.Address, &patient.Dni, &patient.RegistrationDate, &patient.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -157,6 +157,31 @@ func (s *SqlStore) UpdatePatient(patient domain.Patient) (*domain.Patient, error
 	if err != nil {
 		return nil, err
 	}
+
+	return &patient, nil
+}
+
+func (s *SqlStore) CreatePatient(patient domain.Patient) (*domain.Patient, error) {
+	query := "INSERT INTO patients (name, last_name, address, dni, registration_date) VALUES (?, ?, ?, ?, ?);"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return &domain.Patient{}, err
+	}
+
+	defer stmt.Close()
+
+	res, err := stmt.Exec(patient.Name, patient.LastName, patient.Address, patient.Dni, patient.RegistrationDate)
+	if err != nil {
+		return &domain.Patient{}, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return &domain.Patient{}, err
+	}
+
+	lid, _ := res.LastInsertId()
+	patient.ID = int(lid)
 
 	return &patient, nil
 }

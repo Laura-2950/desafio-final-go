@@ -10,8 +10,8 @@ import (
 
 type IRepository interface {
 	GetByID(id int) (*domain.Patient, error)
-	//CreateNewPatient(patient *domain.Patient) (*domain.Patient, error)
-	//DeletePatient(id int) error
+	CreateNewPatient(patient *domain.Patient) (*domain.Patient, error)
+	DeletePatient(id int) error
 	Update(pat *domain.Patient) (*domain.Patient, error)
 }
 
@@ -34,4 +34,26 @@ func (r *Repository) Update(pat *domain.Patient) (*domain.Patient, error) {
 		return nil, web.NewInternalServerApiError("error updating patient")
 	}
 	return patient, nil
+}
+
+func (r *Repository) CreateNewPatient(patient *domain.Patient) (*domain.Patient, error) {
+	if r.Storage.Exists(patient.Dni, "dni", "patients") {
+		return nil, web.NewBadRequestApiError("existing patient")
+	}
+	p, err := r.Storage.CreatePatient(*patient)
+	if err != nil {
+		return nil, web.NewInternalServerApiError("unexpected error")
+	}
+	return p, nil
+}
+
+func (r *Repository) DeletePatient(id int) error {
+	if r.Storage.ExistId(id, "patients") {
+		return web.NewBadRequestApiError(fmt.Sprintf("patient_id %d not found", id))
+	}
+	err := r.Storage.Delete(id, "patients")
+	if err != nil {
+		return err
+	}
+	return nil
 }

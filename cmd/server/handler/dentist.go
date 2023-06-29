@@ -99,7 +99,7 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 		return
 	}
 
-	valid, err := validateEmptysUpdate(dent)
+	valid, err := validateEmptys(dent)
 	if !valid {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
@@ -152,13 +152,6 @@ func (h *DentistHandler) UpdatePartial(ctx *gin.Context) {
 // validateEmptys valida que los campos no esten vacios
 func validateEmptys(dentist *domain.Dentist) (bool, error) {
 	if dentist.Name == "" || dentist.LastName == "" || dentist.RegistrationNumber == "" {
-		return false, errors.New("fields can't be empty")
-	}
-	return true, nil
-}
-
-func validateEmptysUpdate(dentist *domain.Dentist) (bool, error) {
-	if dentist.Name == "" || dentist.LastName == "" {
 		return false, errors.New("fields can't be empty")
 	}
 	return true, nil

@@ -11,6 +11,7 @@ type StoreInterface interface {
 	ExistId(id int, table string) bool
 
 	ReadPatient(id int) (*domain.Patient, error)
+	CreatePatient(patient domain.Patient) (*domain.Patient, error)
 	UpdatePatient(patient domain.Patient) (*domain.Patient, error)
 	// ReadAllTurn() error
 }

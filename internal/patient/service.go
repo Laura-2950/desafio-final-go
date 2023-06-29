@@ -4,8 +4,8 @@ import "github.com/Laura-2950/desafio-final-go/internal/domain"
 
 type IService interface {
 	GetPatientByID(id int) (*domain.Patient, error)
-	//CreateNewPatient(patient *domain.Patient) (*domain.Patient, error)
-	//DeletePatient(id int) error
+	CreateNewPatient(patient *domain.Patient) (*domain.Patient, error)
+	DeletePatient(id int) error
 	UpdatePatient(id int, dent *domain.Patient) (*domain.Patient, error)
 }
 
@@ -40,4 +40,20 @@ func (s *Service) UpdatePatient(id int, pat *domain.Patient) (*domain.Patient, e
 		return nil, err
 	}
 	return patient, nil
+}
+
+func (s *Service) CreateNewPatient(patient *domain.Patient) (*domain.Patient, error) {
+	p, err := s.Repository.CreateNewPatient(patient)
+	if err != nil {
+		return nil, err
+	}
+	return p, nil
+}
+
+func (s *Service) DeletePatient(id int) error {
+	err := s.Repository.DeletePatient(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

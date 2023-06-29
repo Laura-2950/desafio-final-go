@@ -31,7 +31,7 @@ func main() {
 	repoPatient := patient.Repository{Storage: &storage}
 	servPatient := patient.Service{Repository: &repoPatient}
 	patientHandler := handler.PatienttHandler{PatientService: &servPatient}
-	
+
 	r := gin.Default()
 
 	r.GET("ping", func(ctx *gin.Context) { ctx.String(http.StatusOK, "pong") })
@@ -48,6 +48,8 @@ func main() {
 		patientGroup.GET(":id", patientHandler.GetById)
 		patientGroup.PUT(":id", patientHandler.Update)
 		patientGroup.PATCH(":id", patientHandler.UpdatePartial)
+		patientGroup.POST("", patientHandler.NewPatient)
+		patientGroup.DELETE(":id", patientHandler.DeletePatient)
 	}
 
 	r.Run(":8080")
