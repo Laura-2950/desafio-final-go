@@ -9,5 +9,8 @@ type StoreInterface interface {
 	Delete(id int, table string) error
 	Exists(code, codeName, table string) bool
 	ExistId(id int, table string) bool
+
+	ReadPatient(id int) (*domain.Patient, error)
+	UpdatePatient(patient domain.Patient) (*domain.Patient, error)
 	// ReadAllTurn() error
 }

@@ -111,3 +111,40 @@ func (s *SqlStore) ExistId(id int, table string) bool {
 	}
 	return exist
 }
+
+//-------------------------------Pateint-------------------------------//
+
+func (s *SqlStore) ReadPatient(id int) (*domain.Patient, error) {
+	var patientReturn domain.Patient
+
+	query := "SELECT * FROM patients WHERE id = ?;"
+	row := s.DB.QueryRow(query, id)
+	err := row.Scan(&patientReturn.ID, &patientReturn.Name, &patientReturn.LastName, &patientReturn.Address, &patientReturn.Dni, &patientReturn.RegistrationDate)
+	if err != nil {
+		return nil, err
+	}
+	return &patientReturn, nil
+}
+
+// PUT & PATCH
+func (s *SqlStore) UpdatePatient(patient domain.Patient) (*domain.Patient, error) {
+	query := "UPDATE patients SET name=?, last_name=?, address=?, dni=?, registration_date=? WHERE id=?;"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	res, err := stmt.Exec( &patient.Name, &patient.LastName, &patient.Address, &patient.Dni,  &patient.RegistrationDate, &patient.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return nil, err
+	}
+
+	return &patient, nil
+}

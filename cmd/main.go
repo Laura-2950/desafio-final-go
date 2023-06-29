@@ -6,6 +6,7 @@ import (
 
 	"github.com/Laura-2950/desafio-final-go/cmd/server/handler"
 	"github.com/Laura-2950/desafio-final-go/internal/dentist"
+	"github.com/Laura-2950/desafio-final-go/internal/patient"
 	"github.com/Laura-2950/desafio-final-go/pkg/store"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -26,6 +27,11 @@ func main() {
 	repo := dentist.Repository{Storage: &storage}
 	serv := dentist.Service{Repository: &repo}
 	dentistHandler := handler.DentistHandler{DentistService: &serv}
+
+	repoPatient := patient.Repository{Storage: &storage}
+	servPatient := patient.Service{Repository: &repoPatient}
+	patientHandler := handler.PatienttHandler{PatientService: &servPatient}
+	
 	r := gin.Default()
 
 	r.GET("ping", func(ctx *gin.Context) { ctx.String(http.StatusOK, "pong") })
@@ -36,6 +42,12 @@ func main() {
 		dentistGroup.DELETE(":id", dentistHandler.Delete)
 		dentistGroup.PUT(":id", dentistHandler.Update)
 		dentistGroup.PATCH(":id", dentistHandler.UpdatePartial)
+	}
+	patientGroup := r.Group("/patients")
+	{
+		patientGroup.GET(":id", patientHandler.GetById)
+		patientGroup.PUT(":id", patientHandler.Update)
+		patientGroup.PATCH(":id", patientHandler.UpdatePartial)
 	}
 
 	r.Run(":8080")
