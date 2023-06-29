@@ -12,11 +12,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type PatienttHandler struct {
+type PatientHandler struct {
 	PatientService patient.IService
 }
 
-func (h *PatienttHandler) GetById(ctx *gin.Context) {
+func (h *PatientHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -37,7 +37,7 @@ func (h *PatienttHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &patientFounded)
 }
 
-func (h *PatienttHandler) Update(ctx *gin.Context) {
+func (h *PatientHandler) Update(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -70,7 +70,7 @@ func (h *PatienttHandler) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
-func (h *PatienttHandler) UpdatePartial(ctx *gin.Context) {
+func (h *PatientHandler) UpdatePartial(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -104,7 +104,7 @@ func (h *PatienttHandler) UpdatePartial(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
-func (h *PatienttHandler) NewPatient(ctx *gin.Context) {
+func (h *PatientHandler) NewPatient(ctx *gin.Context) {
 	var patient *domain.Patient
 
 	err := ctx.ShouldBindJSON(&patient)
@@ -137,7 +137,7 @@ func (h *PatienttHandler) NewPatient(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newPatient)
 }
 
-func (h *PatienttHandler) DeletePatient(ctx *gin.Context) {
+func (h *PatientHandler) DeletePatient(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {

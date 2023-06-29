@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/Laura-2950/desafio-final-go/internal/domain"
 	"github.com/Laura-2950/desafio-final-go/internal/shift"
@@ -41,8 +42,30 @@ func (h *ShiftHandler) NewShift(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newShift)
 }
 
+func (h *ShiftHandler) Delete(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("Invalid ID"))
+		return
+	}
+
+	erro := h.ShiftService.Delete(id)
+	if erro != nil {
+		if errApi, ok := erro.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(errApi.Status, errApi)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, erro)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, "patient removed successfully")
+}
+
+
 func validateEmptysShift(shift *domain.Shift) (bool, error) {
-	if shift.Dentist.ID < 0 || shift.Patient.ID < 0 || shift.DateHour == "" {
+	if shift.Dentist <= 0 || shift.Patient <=  0 || shift.DateHour == "" {
 		return false, errors.New("fields can't be empty")
 	}
 	return true, nil

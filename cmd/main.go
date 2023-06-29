@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/dental_clinic")
+	db, err := sql.Open("mysql", "user:root@tcp(localhost:3306)/dental_clinic")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -31,7 +31,7 @@ func main() {
 
 	repoPatient := patient.Repository{Storage: &storage}
 	servPatient := patient.Service{Repository: &repoPatient}
-	patientHandler := handler.PatienttHandler{PatientService: &servPatient}
+	patientHandler := handler.PatientHandler{PatientService: &servPatient}
 
 	repoShift := shift.Repository{Storage: &storage}
 	servShift := shift.Service{Repository: &repoShift}
@@ -60,7 +60,7 @@ func main() {
 	{
 		shiftGroup.POST("", shiftHandler.NewShift)
 		//shiftGroup.GET(":id", shiftHandler.GetById)
-		//shiftGroup.DELETE(":id", shiftHandler.Delete)
+		shiftGroup.DELETE(":id", shiftHandler.Delete)
 		//shiftGroup.PUT(":id", shiftHandler.Update)
 		//shiftGroup.PATCH(":id", shiftHandler.UpdatePartial)
 	}
