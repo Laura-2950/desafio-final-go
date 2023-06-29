@@ -7,6 +7,7 @@ import (
 	"github.com/Laura-2950/desafio-final-go/cmd/server/handler"
 	"github.com/Laura-2950/desafio-final-go/internal/dentist"
 	"github.com/Laura-2950/desafio-final-go/internal/patient"
+	"github.com/Laura-2950/desafio-final-go/internal/shift"
 	"github.com/Laura-2950/desafio-final-go/pkg/store"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -32,6 +33,10 @@ func main() {
 	servPatient := patient.Service{Repository: &repoPatient}
 	patientHandler := handler.PatienttHandler{PatientService: &servPatient}
 
+	repoShift := shift.Repository{Storage: &storage}
+	servShift := shift.Service{Repository: &repoShift}
+	shiftHandler := handler.ShiftHandler{ShiftService: &servShift}
+
 	r := gin.Default()
 
 	r.GET("ping", func(ctx *gin.Context) { ctx.String(http.StatusOK, "pong") })
@@ -50,6 +55,14 @@ func main() {
 		patientGroup.PATCH(":id", patientHandler.UpdatePartial)
 		patientGroup.POST("", patientHandler.NewPatient)
 		patientGroup.DELETE(":id", patientHandler.DeletePatient)
+	}
+	shiftGroup := r.Group("/shifts")
+	{
+		shiftGroup.POST("", shiftHandler.NewShift)
+		//shiftGroup.GET(":id", shiftHandler.GetById)
+		//shiftGroup.DELETE(":id", shiftHandler.Delete)
+		//shiftGroup.PUT(":id", shiftHandler.Update)
+		//shiftGroup.PATCH(":id", shiftHandler.UpdatePartial)
 	}
 
 	r.Run(":8080")

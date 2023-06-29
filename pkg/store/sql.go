@@ -185,3 +185,30 @@ func (s *SqlStore) CreatePatient(patient domain.Patient) (*domain.Patient, error
 
 	return &patient, nil
 }
+
+//--------------------------Shift-----------------------------------------------------//
+
+func (s *SqlStore) CreateShift(shift domain.Shift) (*domain.Shift, error) {
+	query := "INSERT INTO shifts (id_patient, id_dentist, date_hour) VALUES (?, ?, ?);"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return &domain.Shift{}, err
+	}
+
+	defer stmt.Close()
+
+	res, err := stmt.Exec(shift.Dentist.ID, shift.Patient.ID, shift.DateHour)
+	if err != nil {
+		return &domain.Shift{}, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return &domain.Shift{}, err
+	}
+
+	lid, _ := res.LastInsertId()
+	shift.ID = int(lid)
+
+	return &shift, nil
+}
