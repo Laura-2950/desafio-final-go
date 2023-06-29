@@ -35,13 +35,6 @@ func (s *Service) UpdatePatient(id int, pat *domain.Patient) (*domain.Patient, e
 	if pat.Address != "" {
 		patient.Address = pat.Address
 	}
-	if pat.Dni != "" {
-		patient.Dni = pat.Dni
-	}
-	if pat.RegistrationDate != "" {
-		patient.RegistrationDate = pat.RegistrationDate
-	}
-
 	patient, err = s.Repository.Update(patient)
 	if err != nil {
 		return nil, err

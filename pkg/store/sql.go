@@ -126,6 +126,18 @@ func (s *SqlStore) ReadPatient(id int) (*domain.Patient, error) {
 	return &patientReturn, nil
 }
 
+func (s *SqlStore) ReadPatientByDNI(dni string) (*domain.Patient, error) {
+	var patientReturn domain.Patient
+
+	query := "SELECT * FROM patients WHERE dni = ?;"
+	row := s.DB.QueryRow(query, dni)
+	err := row.Scan(&patientReturn.ID, &patientReturn.Name, &patientReturn.LastName, &patientReturn.Address, &patientReturn.Dni, &patientReturn.RegistrationDate)
+	if err != nil {
+		return nil, err
+	}
+	return &patientReturn, nil
+}
+
 // PUT & PATCH
 func (s *SqlStore) UpdatePatient(patient domain.Patient) (*domain.Patient, error) {
 	query := "UPDATE patients SET name=?, last_name=?, address=?, dni=?, registration_date=? WHERE id=?;"
