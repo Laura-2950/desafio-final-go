@@ -9,7 +9,7 @@ import (
 type IRepository interface {
 	//GetByID(id int) (*domain.Shift, error)
 	CreateNewShift(shift *domain.Shift) (*domain.Shift, error)
-	DeleteShift(id int) error
+	//DeleteShift(id int) error
 	//Update(shift *domain.Shift) (*domain.Shift, error)
 }
 
