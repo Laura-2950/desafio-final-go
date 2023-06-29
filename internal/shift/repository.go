@@ -12,7 +12,7 @@ type IRepository interface {
 	//GetByID(id int) (*domain.Shift, error)
 	CreateNewShift(shift *domain.Shift) (*domain.ResponseShift, error)
 	DeleteShift(id int) error
-	//Update(shift *domain.Shift) (*domain.Shift, error)
+	Update(shift *domain.Shift) (*domain.Shift, error)
 }
 
 type Repository struct {
@@ -26,7 +26,7 @@ func (r *Repository) CreateNewShift(shift *domain.Shift) (*domain.ResponseShift,
 	if r.Storage.ExistId(shift.Patient, "patients") {
 		return nil, web.NewBadRequestApiError("nonexistent patient")
 	}
-	if !r.Storage.ExistShift(shift)  {
+	if !r.Storage.ExistShift(shift) {
 		return nil, web.NewBadRequestApiError("existent shift")
 	}
 
@@ -42,25 +42,25 @@ func (r *Repository) CreateNewShift(shift *domain.Shift) (*domain.ResponseShift,
 	dent, err := r.Storage.ReadDentist(shift.Dentist)
 	if err != nil {
 		return nil, err
-	}	
-	
+	}
+
 	shiftCrete := domain.ResponseShift{
-		ID:             res.ID,
-		Patient:         domain.Patient{
-			ID: pat.ID,
-			Name: pat.Name,
-			LastName: pat.LastName,
-			Address: pat.Address,
-			Dni: pat.Dni,
+		ID: res.ID,
+		Patient: domain.Patient{
+			ID:               pat.ID,
+			Name:             pat.Name,
+			LastName:         pat.LastName,
+			Address:          pat.Address,
+			Dni:              pat.Dni,
 			RegistrationDate: pat.RegistrationDate,
 		},
-		Dentist:          domain.Dentist{
-			ID: dent.ID,
-			Name: dent.Name,
-			LastName: dent.LastName,
+		Dentist: domain.Dentist{
+			ID:                 dent.ID,
+			Name:               dent.Name,
+			LastName:           dent.LastName,
 			RegistrationNumber: dent.RegistrationNumber,
 		},
-		DateHour:              res.DateHour,
+		DateHour:    res.DateHour,
 		Description: res.Description,
 	}
 
@@ -76,4 +76,12 @@ func (r *Repository) DeleteShift(id int) error {
 		return err
 	}
 	return nil
+}
+
+func (r *Repository) Update(shift *domain.Shift) (*domain.Shift, error) {
+	s, err := r.Storage.UpdateShift(*shift)
+	if err != nil {
+		return nil, web.NewInternalServerApiError("error updating shift")
+	}
+	return s, nil
 }

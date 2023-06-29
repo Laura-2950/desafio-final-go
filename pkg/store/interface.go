@@ -16,5 +16,6 @@ type StoreInterface interface {
 
 	CreateShift(shift *domain.Shift) (*domain.Shift, error)
 	ExistShift(shift *domain.Shift) bool
+	UpdateShift(shift domain.Shift) (*domain.Shift, error)
 	// ReadAllTurn() error
 }

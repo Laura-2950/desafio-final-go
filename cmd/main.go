@@ -61,8 +61,8 @@ func main() {
 		shiftGroup.POST("", shiftHandler.NewShift)
 		//shiftGroup.GET(":id", shiftHandler.GetById)
 		shiftGroup.DELETE(":id", shiftHandler.Delete)
-		//shiftGroup.PUT(":id", shiftHandler.Update)
-		//shiftGroup.PATCH(":id", shiftHandler.UpdatePartial)
+		shiftGroup.PUT(":id", shiftHandler.UpdateShift)
+		shiftGroup.PATCH(":id", shiftHandler.UpdatePartialShift)
 	}
 
 	r.Run(":8080")
