@@ -14,11 +14,11 @@ type Service struct {
 }
 
 func (s *Service) CreateNewDentist(dentist *domain.Dentist) (*domain.Dentist, error) {
-	product, err := s.Repository.CreateNewDentist(dentist)
+	dent, err := s.Repository.CreateNewDentist(dentist)
 	if err != nil {
 		return nil, err
 	}
-	return product, nil
+	return dent, nil
 }
 
 func (s *Service) GetDentistByID(id int) (*domain.Dentist, error) {
