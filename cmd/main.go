@@ -14,7 +14,8 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", "user:root@tcp(localhost:3306)/dental_clinic")
+	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/dental_clinic")
+	//db, err := sql.Open("mysql", "user:root@tcp(localhost:3306)/dental_clinic")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -59,10 +60,10 @@ func main() {
 	shiftGroup := r.Group("/shifts")
 	{
 		shiftGroup.POST("", shiftHandler.NewShift)
-		//shiftGroup.GET(":id", shiftHandler.GetById)
+		shiftGroup.GET(":id", shiftHandler.GetById)
 		shiftGroup.DELETE(":id", shiftHandler.Delete)
-		//shiftGroup.PUT(":id", shiftHandler.Update)
-		//shiftGroup.PATCH(":id", shiftHandler.UpdatePartial)
+		shiftGroup.PUT(":id", shiftHandler.UpdateShift)
+		shiftGroup.PATCH(":id", shiftHandler.UpdatePartialShift)
 	}
 
 	r.Run(":8080")
