@@ -261,3 +261,28 @@ func (s *SqlStore) ReadShift(id int) (*domain.Shift, error) {
 	}
 	return &shiftReturn, nil
 }
+
+func (s *SqlStore) ReadShiftByDni(patientId int) ([]domain.Shift, error) {
+	var shiftsReturn []domain.Shift
+	var shiftReturn domain.Shift
+
+	query := "SELECT * FROM shifts WHERE patient_id = ?;"
+	rows, err := s.DB.Query(query, patientId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err := rows.Scan(&shiftReturn.ID, &shiftReturn.Patient, &shiftReturn.Dentist, &shiftReturn.DateHour, &shiftReturn.Description)
+		if err != nil {
+			return nil, err
+		}
+		shiftsReturn = append(shiftsReturn, shiftReturn)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return shiftsReturn, nil
+}

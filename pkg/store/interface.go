@@ -13,10 +13,11 @@ type StoreInterface interface {
 	ReadPatient(id int) (*domain.Patient, error)
 	CreatePatient(patient domain.Patient) (*domain.Patient, error)
 	UpdatePatient(patient domain.Patient) (*domain.Patient, error)
+	ReadPatientByDNI(dni string) (*domain.Patient, error)
 
 	CreateShift(shift *domain.Shift) (*domain.Shift, error)
 	ExistShift(shift *domain.Shift) bool
 	UpdateShift(shift domain.Shift) (*domain.Shift, error)
 	ReadShift(id int) (*domain.Shift, error)
-	// ReadAllTurn() error
+	ReadShiftByDni(patientId int) ([]domain.Shift, error)
 }
