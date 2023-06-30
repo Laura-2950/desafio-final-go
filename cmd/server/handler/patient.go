@@ -114,13 +114,13 @@ func (h *PatientHandler) NewPatient(ctx *gin.Context) {
 	}
 	valid, err := validEmptysPatient(patient)
 	if !valid {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
 	}
 
 	valid, err = validateRegistrationDate(patient.RegistrationDate)
 	if !valid {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 

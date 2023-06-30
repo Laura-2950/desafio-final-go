@@ -189,7 +189,7 @@ func (s *SqlStore) CreatePatient(patient domain.Patient) (*domain.Patient, error
 //--------------------------Shift-----------------------------------------------------//
 
 func (s *SqlStore) CreateShift(shift *domain.Shift) (*domain.Shift, error) {
-	query := "INSERT INTO shifts (id_patient, id_dentist, date_hour, description) VALUES (?, ?, ?, ?);"
+	query := "INSERT INTO shifts (patient_id, dentist_id, date_hour, description) VALUES (?, ?, ?, ?);"
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return &domain.Shift{}, err
@@ -217,7 +217,7 @@ func (s *SqlStore) ExistShift(shift *domain.Shift) bool {
 	var exist bool
 	var id int
 	query := "SELECT * FROM shifts WHERE patient_id = ? and dentist_id = ? and date_hour = ?;"
-	row := s.DB.QueryRow(query, shift.Patient, shift.Dentist, shift.DateHour )
+	row := s.DB.QueryRow(query, shift.Patient, shift.Dentist, shift.DateHour)
 	err := row.Scan(&id)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -227,4 +227,37 @@ func (s *SqlStore) ExistShift(shift *domain.Shift) bool {
 		exist = false
 	}
 	return exist
+}
+func (s *SqlStore) UpdateShift(shift domain.Shift) (*domain.Shift, error) {
+	query := "UPDATE shifts SET patient_id=?, dentist_id=?, date_hour=?, description=? WHERE id=?;"
+	stmt, err := s.DB.Prepare(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	res, err := stmt.Exec(&shift.Patient, &shift.Dentist, &shift.DateHour, &shift.Description, &shift.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = res.RowsAffected()
+	if err != nil {
+		return nil, err
+	}
+
+	return &shift, nil
+}
+
+func (s *SqlStore) ReadShift(id int) (*domain.Shift, error) {
+	var shiftReturn domain.Shift
+
+	query := "SELECT * FROM shifts WHERE id = ?;"
+	row := s.DB.QueryRow(query, id)
+	err := row.Scan(&shiftReturn.ID, &shiftReturn.Patient, &shiftReturn.Dentist, &shiftReturn.DateHour, &shiftReturn.Description)
+	if err != nil {
+		return nil, err
+	}
+	return &shiftReturn, nil
 }

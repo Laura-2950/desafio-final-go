@@ -60,7 +60,7 @@ func (h *ShiftHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, "patient removed successfully")
+	ctx.JSON(http.StatusOK, "shift removed successfully")
 }
 
 func (h *ShiftHandler) UpdateShift(ctx *gin.Context) {
@@ -126,6 +126,27 @@ func (h *ShiftHandler) UpdatePartialShift(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, shift)
+}
+
+func (h *ShiftHandler) GetById(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("Invalid ID"))
+		return
+	}
+
+	shiftFounded, err := h.ShiftService.GetShiftByID(id)
+	if err != nil {
+		if errApi, ok := err.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(errApi.Status, errApi)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &shiftFounded)
 }
 
 func validateEmptysShift(shift *domain.Shift) (bool, error) {

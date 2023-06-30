@@ -3,8 +3,8 @@ package shift
 import "github.com/Laura-2950/desafio-final-go/internal/domain"
 
 type IService interface {
-	//GetShiftByID(id int) (*domain.Shift, error)
-	CreateNewShift(shift *domain.Shift) (*domain.ResponseShift, error)
+	GetShiftByID(id int) (*domain.ResponseShift, error)
+	CreateNewShift(shift *domain.Shift) (*domain.Shift, error)
 	Delete(id int) error
 	UpdateShift(id int, shift *domain.Shift) (*domain.Shift, error)
 }
@@ -13,7 +13,7 @@ type Service struct {
 	Repository IRepository
 }
 
-func (s *Service) CreateNewShift(shift *domain.Shift) (*domain.ResponseShift, error) {
+func (s *Service) CreateNewShift(shift *domain.Shift) (*domain.Shift, error) {
 	res, err := s.Repository.CreateNewShift(shift)
 	if err != nil {
 		return nil, err
@@ -34,18 +34,36 @@ func (s *Service) UpdateShift(id int, shift *domain.Shift) (*domain.Shift, error
 	if err != nil {
 		return nil, err
 	}
+
 	if shift.Patient != 0 {
-		sh.Patient.ID = shift.Patient
+		sh.Patient = shift.Patient
 	}
 	if shift.Dentist != 0 {
-		sh.Dentist.ID = shift.Dentist
+		sh.Dentist = shift.Dentist
 	}
 	if shift.DateHour != "" {
 		sh.DateHour = shift.DateHour
 	}
-	sh, err = s.Repository.Update(sh)
+	if shift.Description != "" {
+		sh.Description = shift.Description
+	}
+	response, err := s.Repository.Update(sh)
 	if err != nil {
 		return nil, err
 	}
-	return sh, nil
+	return response, nil
+}
+
+func (s *Service) GetShiftByID(id int) (*domain.ResponseShift, error) {
+	shift, err := s.Repository.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := s.Repository.TransformShiftToResponse(*shift)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
