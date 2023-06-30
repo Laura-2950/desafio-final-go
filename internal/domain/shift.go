@@ -8,6 +8,14 @@ type Shift struct {
 	Description        string `json:"description"`
 }
 
+type ShiftCode struct {
+	ID                 int    `json:"id"`
+	Patient            string `json:"patient_dni" binding:"required"`
+	Dentist            string `json:"dentist_registration_number" binding:"required"`
+	DateHour           string `json:"date_hour" binding:"required"`
+	Description        string `json:"description"`
+}
+
 type ResponseShift struct {
 	ID                 int    `json:"id"`
 	Patient            Patient `json:"patient" binding:"required"`

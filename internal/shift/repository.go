@@ -11,6 +11,7 @@ import (
 type IRepository interface {
 	GetByID(id int) (*domain.Shift, error)
 	CreateNewShift(shift *domain.Shift) (*domain.Shift, error)
+	CreateNewShiftCode(shift *domain.ShiftCode) (*domain.Shift, error)
 	DeleteShift(id int) error
 	Update(shift *domain.Shift) (*domain.Shift, error)
 	TransformShiftToResponse(shift domain.Shift) (*domain.ResponseShift, error)
@@ -36,6 +37,31 @@ func (r *Repository) CreateNewShift(shift *domain.Shift) (*domain.Shift, error) 
 		return nil, web.NewInternalServerApiError("unexpected error")
 	}
 
+	return shiftCreate, nil
+}
+
+func (r *Repository) CreateNewShiftCode(shift *domain.ShiftCode) (*domain.Shift, error) {
+	patient, err := r.Storage.ReadPatientByDNI(shift.Patient)
+	if err != nil {
+		return nil, err
+	}
+	dentist, err := r.Storage.ReadDentistByCode(shift.Dentist)
+	if err != nil {
+		return nil, err
+	}
+	aux := domain.Shift{
+		Patient:     patient.ID,
+		Dentist:     dentist.ID,
+		DateHour:    shift.DateHour,
+		Description: shift.Description,
+	}
+	if !r.Storage.ExistShift(&aux) {
+		return nil, web.NewBadRequestApiError("existent shift")
+	}
+	shiftCreate, err := r.Storage.CreateShift(&aux)
+	if err != nil {
+		return nil, web.NewInternalServerApiError("unexpected error")
+	}
 	return shiftCreate, nil
 }
 

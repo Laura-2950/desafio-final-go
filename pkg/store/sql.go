@@ -47,6 +47,18 @@ func (s *SqlStore) ReadDentist(id int) (*domain.Dentist, error) {
 	return &dentistReturn, nil
 }
 
+func (s *SqlStore) ReadDentistByCode(code string) (*domain.Dentist, error) {
+	var dentistReturn domain.Dentist
+
+	query := "SELECT * FROM dentists WHERE registration_number = ?;"
+	row := s.DB.QueryRow(query, code)
+	err := row.Scan(&dentistReturn.ID, &dentistReturn.Name, &dentistReturn.LastName, &dentistReturn.RegistrationNumber)
+	if err != nil {
+		return nil, err
+	}
+	return &dentistReturn, nil
+}
+
 func (s *SqlStore) Delete(id int, table string) error {
 	stmt := "DELETE FROM " + table + " WHERE id = ?"
 	_, err := s.DB.Exec(stmt, id)

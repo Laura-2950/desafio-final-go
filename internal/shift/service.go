@@ -5,6 +5,7 @@ import "github.com/Laura-2950/desafio-final-go/internal/domain"
 type IService interface {
 	GetShiftByID(id int) (*domain.ResponseShift, error)
 	CreateNewShift(shift *domain.Shift) (*domain.Shift, error)
+	CreateNewShiftCode(shift *domain.ShiftCode) (*domain.Shift, error)
 	Delete(id int) error
 	UpdateShift(id int, shift *domain.Shift) (*domain.Shift, error)
 }
@@ -15,6 +16,14 @@ type Service struct {
 
 func (s *Service) CreateNewShift(shift *domain.Shift) (*domain.Shift, error) {
 	res, err := s.Repository.CreateNewShift(shift)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (s *Service) CreateNewShiftCode(shift *domain.ShiftCode) (*domain.Shift, error) {
+	res, err := s.Repository.CreateNewShiftCode(shift)
 	if err != nil {
 		return nil, err
 	}

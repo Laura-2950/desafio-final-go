@@ -60,6 +60,7 @@ func main() {
 	shiftGroup := r.Group("/shifts")
 	{
 		shiftGroup.POST("", shiftHandler.NewShift)
+		shiftGroup.POST("/code", shiftHandler.NewShiftCode)
 		shiftGroup.GET(":id", shiftHandler.GetById)
 		shiftGroup.DELETE(":id", shiftHandler.Delete)
 		shiftGroup.PUT(":id", shiftHandler.UpdateShift)
