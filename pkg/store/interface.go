@@ -4,6 +4,7 @@ import "github.com/Laura-2950/desafio-final-go/internal/domain"
 
 type StoreInterface interface {
 	ReadDentist(id int) (*domain.Dentist, error)
+	ReadDentistByCode(code string) (*domain.Dentist, error)
 	CreateDentist(dentist domain.Dentist) (*domain.Dentist, error)
 	UpdateDentist(dentist domain.Dentist) (*domain.Dentist, error)
 	Delete(id int, table string) error
@@ -11,7 +12,13 @@ type StoreInterface interface {
 	ExistId(id int, table string) bool
 
 	ReadPatient(id int) (*domain.Patient, error)
+	ReadPatientByDNI(dni string) (*domain.Patient, error)
 	CreatePatient(patient domain.Patient) (*domain.Patient, error)
 	UpdatePatient(patient domain.Patient) (*domain.Patient, error)
-	// ReadAllTurn() error
+
+	CreateShift(shift *domain.Shift) (*domain.Shift, error)
+	ExistShift(shift *domain.Shift) bool
+	UpdateShift(shift domain.Shift) (*domain.Shift, error)
+	ReadShift(id int) (*domain.Shift, error)
+	ReadShiftByDni(patientId int) ([]domain.Shift, error)
 }
