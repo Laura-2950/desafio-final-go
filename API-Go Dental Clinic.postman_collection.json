@@ -1052,6 +1052,52 @@
 					"response": []
 				},
 				{
+					"name": "Get Shifts By DNI Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Get Shifts by DNI Patient\", ()=>{\r",
+									"    pm.expect(response).to.be.an(\"array\");\r",
+									"    pm.expect(response[0].patient.dni).to.eql(\"852963741\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/shifts/?dni=852963741",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"shifts",
+								""
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "852963741"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create New Shift",
 					"event": [
 						{

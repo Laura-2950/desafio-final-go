@@ -79,4 +79,6 @@ INSERT INTO shifts (patient_id, dentist_id, date_hour, description) VALUES
 	(13, 3, '10/08/2023 18:45', "consulta anual"),
 	(1, 15, '04/08/2023 15:00', "consulta anual"),
 	(10, 5, '25/07/2023 18:00', "consulta anual"),
-	(13, 20,'10/08/2023 18:30', "consulta anual");
+	(13, 20,'10/08/2023 18:30', "consulta anual"),
+	(1, 5,'20/07/2023 11:30', "consulta anual"),
+	(1, 18,'14/07/2023 08:00', "consulta anual");
