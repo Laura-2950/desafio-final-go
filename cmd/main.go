@@ -65,6 +65,7 @@ func main() {
 		shiftGroup.DELETE(":id", shiftHandler.Delete)
 		shiftGroup.PUT(":id", shiftHandler.UpdateShift)
 		shiftGroup.PATCH(":id", shiftHandler.UpdatePartialShift)
+		shiftGroup.GET("", shiftHandler.GetAllByDni)
 	}
 
 	r.Run(":8080")

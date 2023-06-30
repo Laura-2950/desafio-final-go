@@ -190,6 +190,26 @@ func (h *ShiftHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &shiftFounded)
 }
 
+func (h *ShiftHandler) GetAllByDni(ctx *gin.Context) {
+	dniParam := ctx.Query("dni")
+	if dniParam == "" {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, web.NewBadRequestApiError("Invalid DNI"))
+		return
+	}
+
+	shiftsFounded, err := h.ShiftService.GetAllByDni(dniParam)
+	if err != nil {
+		if errApi, ok := err.(*web.ErrorApi); ok {
+			ctx.AbortWithStatusJSON(errApi.Status, errApi)
+			return
+		}
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, &shiftsFounded)
+}
+
 func validateEmptysShift(shift *domain.Shift) (bool, error) {
 	if shift.Dentist <= 0 || shift.Patient <= 0 || shift.DateHour == "" {
 		return false, errors.New("fields can't be empty")
@@ -210,7 +230,7 @@ func validateDateHour(exp string) (bool, error) {
 	fmt.Println(dates)
 	hour := strings.Split(dateHour[1], ":")
 	fmt.Println(hour)
-//-------------Date-------------------------//
+	//-------------Date-------------------------//
 	list := []int{}
 	if len(dates) != 3 {
 		return false, errors.New("invalid date, must be in format: dd/mm/yyyy")
@@ -227,7 +247,7 @@ func validateDateHour(exp string) (bool, error) {
 		return false, errors.New("invalid date, date must be between 1 and 31/12/9999")
 	}
 
-//-------------Hour-------------------------//
+	//-------------Hour-------------------------//
 	list2 := []int{}
 	if len(hour) != 2 {
 		return false, errors.New("invalid hour, must be in format: hh:mm")

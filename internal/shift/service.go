@@ -8,6 +8,7 @@ type IService interface {
 	CreateNewShiftCode(shift *domain.ShiftCode) (*domain.Shift, error)
 	Delete(id int) error
 	UpdateShift(id int, shift *domain.Shift) (*domain.Shift, error)
+	GetAllByDni(dni string) ([]domain.ResponseShift, error)
 }
 
 type Service struct {
@@ -72,6 +73,23 @@ func (s *Service) GetShiftByID(id int) (*domain.ResponseShift, error) {
 	response, err := s.Repository.TransformShiftToResponse(*shift)
 	if err != nil {
 		return nil, err
+	}
+
+	return response, nil
+}
+
+func (s *Service) GetAllByDni(dni string) ([]domain.ResponseShift, error) {
+	shifts, err := s.Repository.GetAllByDni(dni)
+	if err != nil {
+		return nil, err
+	}
+	var response []domain.ResponseShift
+	for _, sh := range shifts {
+		shift, err := s.Repository.TransformShiftToResponse(sh)
+		if err != nil {
+			return nil, err
+		}
+		response = append(response, *shift)
 	}
 
 	return response, nil

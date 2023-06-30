@@ -15,6 +15,7 @@ type IRepository interface {
 	DeleteShift(id int) error
 	Update(shift *domain.Shift) (*domain.Shift, error)
 	TransformShiftToResponse(shift domain.Shift) (*domain.ResponseShift, error)
+	GetAllByDni(dni string) ([]domain.Shift, error)
 }
 
 type Repository struct {
@@ -125,4 +126,18 @@ func (s *Repository) TransformShiftToResponse(shift domain.Shift) (*domain.Respo
 	}
 
 	return &shiftCreate, nil
+}
+
+func (r *Repository) GetAllByDni(dni string) ([]domain.Shift, error) {
+	patient, err := r.Storage.ReadPatientByDNI(dni)
+	if err != nil {
+		return nil, web.NewNotFoundApiError(fmt.Sprintf("patient_dni %s not found", dni))
+	}
+
+	response, err := r.Storage.ReadShiftByDni(patient.ID)
+	if err != nil || len(response) <= 0 {
+		return nil, web.NewNotFoundApiError(fmt.Sprintf("patient_dni %s has't shifts", patient.Dni))
+	}
+
+	return response, nil
 }
