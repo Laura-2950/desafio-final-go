@@ -780,7 +780,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "5"
+									"value": "13"
 								}
 							]
 						}
@@ -1266,7 +1266,6 @@
 									"\r",
 									"\r",
 									"pm.test(\"Delete Shift by id\", ()=>{\r",
-									"    pm.expect(response).to.be.an(\"object\");\r",
 									"    pm.expect(response).to.eql(\"shift removed successfully\");\r",
 									"})"
 								],
@@ -1297,7 +1296,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "6"
+									"value": "8"
 								}
 							]
 						}
