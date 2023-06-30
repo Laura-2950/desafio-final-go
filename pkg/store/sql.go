@@ -189,7 +189,7 @@ func (s *SqlStore) CreatePatient(patient domain.Patient) (*domain.Patient, error
 //--------------------------Shift-----------------------------------------------------//
 
 func (s *SqlStore) CreateShift(shift *domain.Shift) (*domain.Shift, error) {
-	query := "INSERT INTO shifts (id_patient, id_dentist, date_hour, description) VALUES (?, ?, ?, ?);"
+	query := "INSERT INTO shifts (patient_id, dentist_id, date_hour, description) VALUES (?, ?, ?, ?);"
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return &domain.Shift{}, err

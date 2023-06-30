@@ -22,7 +22,7 @@ CREATE TABLE shifts (
     patient_id INT,
     dentist_id INT,
     date_hour VARCHAR(50) NOT NULL,
-	description VARCHAR(255),
+	description VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (dentist_id) REFERENCES dentists(id)
@@ -75,13 +75,13 @@ INSERT INTO patients (name, last_name, address, dni, registration_date) VALUES
 
 
 INSERT INTO shifts (patient_id, dentist_id, date_hour, description) VALUES 
-	(9, 20, '04/07/2023 11:30:00', "consulta anual"),
-	(13, 3, '10/08/2023 18:45:00', "consulta anual"),
-	(5, 1, '20/07/2023 09:00:00'),
-	(10, 5, '25/08/2023 18:45:00'),
-	(1, 15, '04/08/2023 15:00:00', "consulta anual"),
-	(5, 1, '20/07/2023 09:30:00'),
-	(10, 5, '25/07/2023 18:00:00', "consulta anual"),
-	(9, 3, '25/07/2023 11:45:00'),
-	(13, 20, '10/08/2023 18:30:00', "consulta anual"),
-	(6, 15, '04/08/2023 15:45:00');
+	(9, 20, '04/07/2023 11:30', "consulta anual"),
+	(13, 3, '10/08/2023 18:45', "consulta anual"),
+	(5, 1, '20/07/2023 09:00', null),
+	(10, 5, '25/08/2023 18:45', null),
+	(1, 15, '04/08/2023 15:00', "consulta anual"),
+	(5, 1, '20/07/2023 09:30', null),
+	(10, 5, '25/07/2023 18:00', "consulta anual"),
+	(9, 3, '25/07/2023 11:45', null),
+	(13, 20, '10/08/2023 18:30', "consulta anual"),
+	(6, 15, '04/08/2023 15:45', null);
