@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/Laura-2950/desafio-final-go/cmd/server/handler"
+	_ "github.com/Laura-2950/desafio-final-go/docs"
 	"github.com/Laura-2950/desafio-final-go/internal/dentist"
 	"github.com/Laura-2950/desafio-final-go/internal/patient"
 	"github.com/Laura-2950/desafio-final-go/internal/shift"
@@ -19,7 +20,6 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
 
 // @title           API Dental Clinic
 // @version         1.0
@@ -46,7 +46,6 @@ func main() {
 
 	connectionString := fmt.Sprintf("%s:%s@tcp(localhost:3306)/%s", username, password, dbName)
 
-	
 	db, err := sql.Open("mysql", connectionString)
 	//db, err := sql.Open("mysql", "user:root@tcp(localhost:3306)/dental_clinic")
 	if err != nil {

@@ -22,6 +22,8 @@ type PatientHandler struct {
 // @Tags         patients
 // @Produce      json
 // @Param        id   path      int  true  "Patient ID"
+// @Success      200  {object}  domain.Patient
+// @Failure      400  {object}  web.ErrorApi
 // @Router       /patients/{id} [get]
 func (h *PatientHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
