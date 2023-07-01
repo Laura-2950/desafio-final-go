@@ -42,6 +42,7 @@ func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newDentist)
 }
 
+
 func (h *DentistHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)

@@ -16,8 +16,25 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+
+// @title           API Dental Clinic
+// @version         1.0
+// @description     This is a API to register a dental shift.
+
+// @contact.name   API Support
+// @contact.url    http://www.dentalclinic.com
+// @contact.email  support@dentalclinic.com
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+
+// @externalDocs.url          http://localhost:8080/swagger/index.html
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -84,5 +101,6 @@ func main() {
 		shiftGroup.GET("", shiftHandler.GetAllByDni)
 	}
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.Run(":8080")
 }

@@ -16,6 +16,13 @@ type PatientHandler struct {
 	PatientService patient.IService
 }
 
+// GetById godoc
+// @Summary      Show a patient
+// @Description  get patient by ID
+// @Tags         patients
+// @Produce      json
+// @Param        id   path      int  true  "Patient ID"
+// @Router       /patients/{id} [get]
 func (h *PatientHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
