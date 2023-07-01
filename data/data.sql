@@ -30,7 +30,7 @@ INSERT INTO dentists (name, last_name, registration_number) VALUES
 	('Matthew', 'Moore', '78901'),
 	('Sofia', 'King', '89012');
 
-CREATE TABLE patients (
+CREATE TABLE IF NOT EXISTS patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -61,13 +61,12 @@ INSERT INTO patients (name, last_name, address, dni, registration_date) VALUES
 	('Henry', 'Harris', '753 Oak St', '963741852', '06/04/2023'),
 	('Harper', 'Walker', '369 Birch St', '741852963', '06/02/2023');
 
-CREATE TABLE shifts (
-    id INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS shifts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT,
     dentist_id INT,
     date_hour VARCHAR(50) NOT NULL,
 	description VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (id),
     FOREIGN KEY (patient_id) REFERENCES patients(id),
     FOREIGN KEY (dentist_id) REFERENCES dentists(id)
 );
