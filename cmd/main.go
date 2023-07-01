@@ -2,19 +2,35 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/Laura-2950/desafio-final-go/cmd/server/handler"
 	"github.com/Laura-2950/desafio-final-go/internal/dentist"
 	"github.com/Laura-2950/desafio-final-go/internal/patient"
 	"github.com/Laura-2950/desafio-final-go/internal/shift"
+	"github.com/Laura-2950/desafio-final-go/pkg/middleware"
 	"github.com/Laura-2950/desafio-final-go/pkg/store"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/dental_clinic")
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error al intentar cargar archivo .env")
+	}
+	username := os.Getenv("USER_MYSQL")
+	password := os.Getenv("PASS_MYSQL")
+	dbName := os.Getenv("DB_MYSQL")
+
+	connectionString := fmt.Sprintf("%s:%s@tcp(localhost:3306)/%s", username, password, dbName)
+
+	
+	db, err := sql.Open("mysql", connectionString)
 	//db, err := sql.Open("mysql", "user:root@tcp(localhost:3306)/dental_clinic")
 	if err != nil {
 		panic(err.Error())
@@ -43,28 +59,28 @@ func main() {
 	r.GET("ping", func(ctx *gin.Context) { ctx.String(http.StatusOK, "pong") })
 	dentistGroup := r.Group("/dentists")
 	{
-		dentistGroup.POST("", dentistHandler.NewDentist)
+		dentistGroup.POST("", middleware.Authentication(), dentistHandler.NewDentist)
 		dentistGroup.GET(":id", dentistHandler.GetById)
-		dentistGroup.DELETE(":id", dentistHandler.Delete)
-		dentistGroup.PUT(":id", dentistHandler.Update)
-		dentistGroup.PATCH(":id", dentistHandler.UpdatePartial)
+		dentistGroup.DELETE(":id", middleware.Authentication(), dentistHandler.Delete)
+		dentistGroup.PUT(":id", middleware.Authentication(), dentistHandler.Update)
+		dentistGroup.PATCH(":id", middleware.Authentication(), dentistHandler.UpdatePartial)
 	}
 	patientGroup := r.Group("/patients")
 	{
 		patientGroup.GET(":id", patientHandler.GetById)
-		patientGroup.PUT(":id", patientHandler.Update)
-		patientGroup.PATCH(":id", patientHandler.UpdatePartial)
-		patientGroup.POST("", patientHandler.NewPatient)
-		patientGroup.DELETE(":id", patientHandler.DeletePatient)
+		patientGroup.PUT(":id", middleware.Authentication(), patientHandler.Update)
+		patientGroup.PATCH(":id", middleware.Authentication(), patientHandler.UpdatePartial)
+		patientGroup.POST("", middleware.Authentication(), patientHandler.NewPatient)
+		patientGroup.DELETE(":id", middleware.Authentication(), patientHandler.DeletePatient)
 	}
 	shiftGroup := r.Group("/shifts")
 	{
-		shiftGroup.POST("", shiftHandler.NewShift)
-		shiftGroup.POST("/code", shiftHandler.NewShiftCode)
+		shiftGroup.POST("", middleware.Authentication(), shiftHandler.NewShift)
+		shiftGroup.POST("/code", middleware.Authentication(), shiftHandler.NewShiftCode)
 		shiftGroup.GET(":id", shiftHandler.GetById)
-		shiftGroup.DELETE(":id", shiftHandler.Delete)
-		shiftGroup.PUT(":id", shiftHandler.UpdateShift)
-		shiftGroup.PATCH(":id", shiftHandler.UpdatePartialShift)
+		shiftGroup.DELETE(":id", middleware.Authentication(), shiftHandler.Delete)
+		shiftGroup.PUT(":id", middleware.Authentication(), shiftHandler.UpdateShift)
+		shiftGroup.PATCH(":id", middleware.Authentication(), shiftHandler.UpdatePartialShift)
 		shiftGroup.GET("", shiftHandler.GetAllByDni)
 	}
 
