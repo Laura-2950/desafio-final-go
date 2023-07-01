@@ -24,65 +24,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/patient": {
-            "post": {
-                "description": "create a patient",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "patients"
-                ],
-                "summary": "Create a patient",
-                "parameters": [
-                    {
-                        "description": "Patient to store",
-                        "name": "patient",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.Patient"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/domain.Patient"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorApi"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorApi"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorApi"
-                        }
-                    }
-                }
-            }
-        },
         "/dentists": {
             "post": {
                 "description": "create a dentist",
@@ -93,10 +34,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dentists"
+                    "Dentists"
                 ],
                 "summary": "Create a dentist",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Dentist to store",
                         "name": "dentist",
@@ -105,13 +53,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.Dentist"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -149,7 +90,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dentists"
+                    "Dentists"
                 ],
                 "summary": "Show a dentist",
                 "parameters": [
@@ -174,12 +115,6 @@ const docTemplate = `{
                             "$ref": "#/definitions/web.ErrorApi"
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorApi"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -197,22 +132,22 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dentists"
+                    "Dentists"
                 ],
                 "summary": "Update a dentist",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Dentist id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Dentist id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     },
                     {
@@ -255,22 +190,22 @@ const docTemplate = `{
             "delete": {
                 "description": "delete a dentist",
                 "tags": [
-                    "dentists"
+                    "Dentists"
                 ],
                 "summary": "Delete a dentist",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Dentist id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Dentist id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -310,22 +245,22 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "dentists"
+                    "Dentists"
                 ],
                 "summary": "Update partial a dentist",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Dentist id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Dentist id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     },
                     {
@@ -366,6 +301,65 @@ const docTemplate = `{
                 }
             }
         },
+        "/patients": {
+            "post": {
+                "description": "create a patient",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Patients"
+                ],
+                "summary": "Create a patient",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Patient to store",
+                        "name": "patient",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Patient"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Patient"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            }
+        },
         "/patients/{id}": {
             "get": {
                 "description": "get patient by ID",
@@ -373,7 +367,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "patients"
+                    "Patients"
                 ],
                 "summary": "Show a patient",
                 "parameters": [
@@ -398,12 +392,6 @@ const docTemplate = `{
                             "$ref": "#/definitions/web.ErrorApi"
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorApi"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -421,22 +409,22 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "patients"
+                    "Patients"
                 ],
                 "summary": "Update a patient",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Patient id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     },
                     {
@@ -479,22 +467,22 @@ const docTemplate = `{
             "delete": {
                 "description": "delete a patient",
                 "tags": [
-                    "patients"
+                    "Patients"
                 ],
                 "summary": "Delete a Patient",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Patient id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -534,22 +522,22 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "patients"
+                    "Patients"
                 ],
                 "summary": "Update partial a patient",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Patient id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Patient id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     },
                     {
@@ -567,6 +555,384 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.Patient"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            }
+        },
+        "/shifts": {
+            "get": {
+                "description": "get shifts by DNI",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Show dni shifts",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Shift by Dni",
+                        "name": "dni",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/domain.ResponseShift"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create a shift",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Create a shift",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Shift to store",
+                        "name": "shift",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Shift"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Shift"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            }
+        },
+        "/shifts/code": {
+            "post": {
+                "description": "create a shift by dni and registerNumber",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Create a shift by dni and registerNumber",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Shift to store",
+                        "name": "shift",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.ShiftCode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Shift"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            }
+        },
+        "/shifts/{id}": {
+            "get": {
+                "description": "get shift by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Show a shift",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Shift ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ResponseShift"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update a shift",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Update a shift",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Shift id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Shift to store",
+                        "name": "Shift",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Shift"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Shift"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete a shift",
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Delete a shift",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Shift id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorApi"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "update partial a shift",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shifts"
+                ],
+                "summary": "Update partial a shift",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Shift id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Shift to store",
+                        "name": "Shift",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.RequestShift"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Shift"
                         }
                     },
                     "400": {
@@ -643,6 +1009,20 @@ const docTemplate = `{
                 }
             }
         },
+        "domain.RequestDentist": {
+            "type": "object",
+            "properties": {
+                "last_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "registration_number": {
+                    "type": "string"
+                }
+            }
+        },
         "domain.RequestPatient": {
             "type": "object",
             "properties": {
@@ -663,16 +1043,94 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.RequestDentist": {
+        "domain.RequestShift": {
             "type": "object",
             "properties": {
-                "last_name": {
+                "date_hour": {
                     "type": "string"
                 },
-                "name": {
+                "dentist": {
+                    "type": "integer"
+                },
+                "description": {
                     "type": "string"
                 },
-                "registration_number": {
+                "patient": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.ResponseShift": {
+            "type": "object",
+            "required": [
+                "date_hour",
+                "dentist",
+                "patient"
+            ],
+            "properties": {
+                "date_hour": {
+                    "type": "string"
+                },
+                "dentist": {
+                    "$ref": "#/definitions/domain.Dentist"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "patient": {
+                    "$ref": "#/definitions/domain.Patient"
+                }
+            }
+        },
+        "domain.Shift": {
+            "type": "object",
+            "required": [
+                "date_hour",
+                "dentist",
+                "patient"
+            ],
+            "properties": {
+                "date_hour": {
+                    "type": "string"
+                },
+                "dentist": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "patient": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.ShiftCode": {
+            "type": "object",
+            "required": [
+                "date_hour",
+                "dentist_registration_number",
+                "patient_dni"
+            ],
+            "properties": {
+                "date_hour": {
+                    "type": "string"
+                },
+                "dentist_registration_number": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "patient_dni": {
                     "type": "string"
                 }
             }

@@ -21,8 +21,8 @@ type DentistHandler struct {
 // @Tags         Dentists
 // @Accept		 json
 // @Produce      json
-// @Param        dentist  body     domain.Dentist true    "Dentist to store"
 // @Param        token    header   string          true "token"
+// @Param        dentist  body     domain.Dentist true    "Dentist to store"
 // @Success      201  {object}  domain.Dentist
 // @Failure      400  {object}  web.ErrorApi
 // @Failure      401  {object}  web.ErrorApi
@@ -63,7 +63,6 @@ func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 // @Param        id   path      int  true  "Dentist ID"
 // @Success      200  {object}  domain.Dentist
 // @Failure      400  {object}  web.ErrorApi
-// @Failure      401  {object}  web.ErrorApi
 // @Failure      500  {object}  web.ErrorApi
 // @Router       /dentists/{id} [get]
 func (h *DentistHandler) GetById(ctx *gin.Context) {
@@ -91,8 +90,8 @@ func (h *DentistHandler) GetById(ctx *gin.Context) {
 // @Summary      Delete a dentist
 // @Description  delete a dentist
 // @Tags         Dentists
-// @Param        id    path     int    true "Dentist id"
 // @Param        token    header   string          true "token"
+// @Param        id    path     int    true "Dentist id"
 // @Success      200  {string}  dentist removed successfully
 // @Failure      400  {object}  web.ErrorApi
 // @Failure      401  {object}  web.ErrorApi
@@ -125,8 +124,8 @@ func (h *DentistHandler) Delete(ctx *gin.Context) {
 // @Tags         Dentists
 // @Accept       json
 // @Produce      json
-// @Param        id    path     int    true "Dentist id"
 // @Param        token    header   string          true "token"
+// @Param        id    path     int    true "Dentist id"
 // @Param        dentist  body     domain.Dentist true    "Dentist to store"
 // @Success      200  {object}  domain.Dentist
 // @Failure      400  {object}  web.ErrorApi
@@ -172,8 +171,8 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 // @Tags         Dentists
 // @Accept       json
 // @Produce      json
-// @Param        id       path     int             true "Dentist id"
 // @Param        token    header   string          true  "token"
+// @Param        id       path     int             true "Dentist id"
 // @Param        dentist  body     domain.RequestDentist  true  "Dentist to store"
 // @Success      200  {object}  domain.Dentist
 // @Failure      400  {object}  web.ErrorApi

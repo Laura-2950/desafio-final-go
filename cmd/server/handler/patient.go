@@ -19,12 +19,11 @@ type PatientHandler struct {
 // GetById godoc
 // @Summary      Show a patient
 // @Description  get patient by ID
-// @Tags         patients
+// @Tags         Patients
 // @Produce      json
 // @Param        id   path      int  true  "Patient ID"
 // @Success      200  {object}  domain.Patient
 // @Failure      400  {object}  web.ErrorApi
-// @Failure      401  {object}  web.ErrorApi
 // @Failure      500  {object}  web.ErrorApi
 // @Router       /patients/{id} [get]
 func (h *PatientHandler) GetById(ctx *gin.Context) {
@@ -51,11 +50,11 @@ func (h *PatientHandler) GetById(ctx *gin.Context) {
 // Update godoc
 // @Summary      Update a patient
 // @Description  update a patient
-// @Tags         patients
+// @Tags         Patients
 // @Accept       json
 // @Produce      json
-// @Param        id    path     int    true "Patient id"
 // @Param        token    header   string          true "token"
+// @Param        id    path     int    true "Patient id"
 // @Param        patient  body     domain.Patient true    "Patient to store"
 // @Success      200  {object}  domain.Patient
 // @Failure      400  {object}  web.ErrorApi
@@ -98,11 +97,11 @@ func (h *PatientHandler) Update(ctx *gin.Context) {
 // UpdatePartial godoc
 // @Summary      Update partial a patient
 // @Description  update partial a patient
-// @Tags         patients
+// @Tags         Patients
 // @Accept       json
 // @Produce      json
-// @Param        id       path     int             true "Patient id"
 // @Param        token    header   string          true  "token"
+// @Param        id       path     int             true "Patient id"
 // @Param        patient  body     domain.RequestPatient  true  "Patient to store"
 // @Success      200  {object}  domain.Patient
 // @Failure      400  {object}  web.ErrorApi
@@ -143,20 +142,19 @@ func (h *PatientHandler) UpdatePartial(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
-
 // NewPatient godoc
 // @Summary      Create a patient
 // @Description  create a patient
-// @Tags         patients
+// @Tags         Patients
 // @Accept		 json
 // @Produce      json
-// @Param        patient  body     domain.Patient true    "Patient to store"
 // @Param        token    header   string          true "token"
+// @Param        patient  body     domain.Patient true    "Patient to store"
 // @Success      201  {object}  domain.Patient
 // @Failure      400  {object}  web.ErrorApi
 // @Failure      401  {object}  web.ErrorApi
 // @Failure      500  {object}  web.ErrorApi
-// @Router       /patient [post]
+// @Router       /patients [post]
 func (h *PatientHandler) NewPatient(ctx *gin.Context) {
 	var patient *domain.Patient
 
@@ -193,9 +191,9 @@ func (h *PatientHandler) NewPatient(ctx *gin.Context) {
 // Delete godoc
 // @Summary      Delete a Patient
 // @Description  delete a patient
-// @Tags         patients
-// @Param        id    path     int    true "Patient id"
+// @Tags         Patients
 // @Param        token    header   string          true "token"
+// @Param        id    path     int    true "Patient id"
 // @Success      200  string    patient removed successfully
 // @Failure      400  {object}  web.ErrorApi
 // @Failure      401  {object}  web.ErrorApi

@@ -17,6 +17,19 @@ type ShiftHandler struct {
 	ShiftService shift.IService
 }
 
+// NewShift godoc
+// @Summary      Create a shift
+// @Description  create a shift
+// @Tags         Shifts
+// @Accept		 json
+// @Produce      json
+// @Param        token    header   string          true "token"
+// @Param        shift  body     domain.Shift true    "Shift to store"
+// @Success      201  {object}  domain.Shift
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts [post]
 func (h *ShiftHandler) NewShift(ctx *gin.Context) {
 	var shift *domain.Shift
 
@@ -50,6 +63,19 @@ func (h *ShiftHandler) NewShift(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newShift)
 }
 
+// NewShiftWithCode godoc
+// @Summary      Create a shift by dni and registerNumber
+// @Description  create a shift by dni and registerNumber
+// @Tags         Shifts
+// @Accept		 json
+// @Produce      json
+// @Param        token    header   string          true "token"
+// @Param        shift  body     domain.ShiftCode true    "Shift to store"
+// @Success      201  {object}  domain.Shift
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts/code [post]
 func (h *ShiftHandler) NewShiftCode(ctx *gin.Context) {
 	var shift *domain.ShiftCode
 
@@ -83,6 +109,17 @@ func (h *ShiftHandler) NewShiftCode(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newShift)
 }
 
+// Delete godoc
+// @Summary      Delete a shift
+// @Description  delete a shift
+// @Tags         Shifts
+// @Param        token    header   string          true "token"
+// @Param        id    path     int    true "Shift id"
+// @Success      200  {string}  shift removed successfully
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts/{id} [delete]
 func (h *ShiftHandler) Delete(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -104,6 +141,20 @@ func (h *ShiftHandler) Delete(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "shift removed successfully")
 }
 
+// Update godoc
+// @Summary      Update a shift
+// @Description  update a shift
+// @Tags         Shifts
+// @Accept       json
+// @Produce      json
+// @Param        token    header   string          true "token"
+// @Param        id    path     int    true "Shift id"
+// @Param        Shift  body     domain.Shift true    "Shift to store"
+// @Success      200  {object}  domain.Shift
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts/{id} [put]
 func (h *ShiftHandler) UpdateShift(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -137,6 +188,20 @@ func (h *ShiftHandler) UpdateShift(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, shift)
 }
 
+// UpdatePartial godoc
+// @Summary      Update partial a shift
+// @Description  update partial a shift
+// @Tags         Shifts
+// @Accept       json
+// @Produce      json
+// @Param        token    header   string          true  "token"
+// @Param        id       path     int             true "Shift id"
+// @Param        Shift  body     domain.RequestShift  true  "Shift to store"
+// @Success      200  {object}  domain.Shift
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts/{id} [patch]
 func (h *ShiftHandler) UpdatePartialShift(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -169,6 +234,16 @@ func (h *ShiftHandler) UpdatePartialShift(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, shift)
 }
 
+// GetById godoc
+// @Summary      Show a shift
+// @Description  get shift by ID
+// @Tags         Shifts
+// @Produce      json
+// @Param        id   path      int  true  "Shift ID"
+// @Success      200  {object}  domain.ResponseShift
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts/{id} [get]
 func (h *ShiftHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -190,6 +265,16 @@ func (h *ShiftHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &shiftFounded)
 }
 
+// GetByDni godoc
+// @Summary      Show dni shifts
+// @Description  get shifts by DNI
+// @Tags         Shifts
+// @Produce      json
+// @Param        dni  query     string  true  "Shift by Dni"
+// @Success      200  {array}   domain.ResponseShift
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /shifts [get]
 func (h *ShiftHandler) GetAllByDni(ctx *gin.Context) {
 	dniParam := ctx.Query("dni")
 	if dniParam == "" {
