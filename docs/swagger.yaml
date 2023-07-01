@@ -1,0 +1,767 @@
+definitions:
+  domain.Dentist:
+    properties:
+      id:
+        type: integer
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_number:
+        type: string
+    required:
+    - last_name
+    - name
+    - registration_number
+    type: object
+  domain.Patient:
+    properties:
+      address:
+        type: string
+      dni:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_date:
+        type: string
+    required:
+    - dni
+    - last_name
+    - name
+    - registration_date
+    type: object
+  domain.RequestDentist:
+    properties:
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_number:
+        type: string
+    type: object
+  domain.RequestPatient:
+    properties:
+      address:
+        type: string
+      dni:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_date:
+        type: string
+    type: object
+  domain.RequestShift:
+    properties:
+      date_hour:
+        type: string
+      dentist:
+        type: integer
+      description:
+        type: string
+      patient:
+        type: integer
+    type: object
+  domain.ResponseShift:
+    properties:
+      date_hour:
+        type: string
+      dentist:
+        $ref: '#/definitions/domain.Dentist'
+      description:
+        type: string
+      id:
+        type: integer
+      patient:
+        $ref: '#/definitions/domain.Patient'
+    required:
+    - date_hour
+    - dentist
+    - patient
+    type: object
+  domain.Shift:
+    properties:
+      date_hour:
+        type: string
+      dentist:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      patient:
+        type: integer
+    required:
+    - date_hour
+    - dentist
+    - patient
+    type: object
+  domain.ShiftCode:
+    properties:
+      date_hour:
+        type: string
+      dentist_registration_number:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      patient_dni:
+        type: string
+    required:
+    - date_hour
+    - dentist_registration_number
+    - patient_dni
+    type: object
+  web.ErrorApi:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+externalDocs:
+  url: http://localhost:8080/swagger/index.html
+host: localhost:8080
+info:
+  contact:
+    email: support@dentalclinic.com
+    name: API Support
+    url: http://www.dentalclinic.com
+  description: This is a API to register a dental shift.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: API Dental Clinic
+  version: "1.0"
+paths:
+  /dentists:
+    post:
+      consumes:
+      - application/json
+      description: create a dentist
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Dentist to store
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Create a dentist
+      tags:
+      - Dentists
+  /dentists/{id}:
+    delete:
+      description: delete a dentist
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Dentist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Delete a dentist
+      tags:
+      - Dentists
+    get:
+      description: get dentist by ID
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Show a dentist
+      tags:
+      - Dentists
+    patch:
+      consumes:
+      - application/json
+      description: update partial a dentist
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Dentist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist to store
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RequestDentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update partial a dentist
+      tags:
+      - Dentists
+    put:
+      consumes:
+      - application/json
+      description: update a dentist
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Dentist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist to store
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update a dentist
+      tags:
+      - Dentists
+  /patients:
+    post:
+      consumes:
+      - application/json
+      description: create a patient
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Patient to store
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Patient'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Create a patient
+      tags:
+      - Patients
+  /patients/{id}:
+    delete:
+      description: delete a patient
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Patient id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Delete a Patient
+      tags:
+      - Patients
+    get:
+      description: get patient by ID
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Show a patient
+      tags:
+      - Patients
+    patch:
+      consumes:
+      - application/json
+      description: update partial a patient
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Patient id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient to store
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RequestPatient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update partial a patient
+      tags:
+      - Patients
+    put:
+      consumes:
+      - application/json
+      description: update a patient
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Patient id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient to store
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update a patient
+      tags:
+      - Patients
+  /shifts:
+    get:
+      description: get shifts by DNI
+      parameters:
+      - description: Shift by Dni
+        in: query
+        name: dni
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.ResponseShift'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Show dni shifts
+      tags:
+      - Shifts
+    post:
+      consumes:
+      - application/json
+      description: create a shift
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Shift to store
+        in: body
+        name: shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Shift'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Create a shift
+      tags:
+      - Shifts
+  /shifts/{id}:
+    delete:
+      description: delete a shift
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Shift id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Delete a shift
+      tags:
+      - Shifts
+    get:
+      description: get shift by ID
+      parameters:
+      - description: Shift ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.ResponseShift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Show a shift
+      tags:
+      - Shifts
+    patch:
+      consumes:
+      - application/json
+      description: update partial a shift
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Shift id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shift to store
+        in: body
+        name: Shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RequestShift'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update partial a shift
+      tags:
+      - Shifts
+    put:
+      consumes:
+      - application/json
+      description: update a shift
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Shift id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Shift to store
+        in: body
+        name: Shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Shift'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update a shift
+      tags:
+      - Shifts
+  /shifts/code:
+    post:
+      consumes:
+      - application/json
+      description: create a shift by dni and registerNumber
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Shift to store
+        in: body
+        name: shift
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ShiftCode'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Shift'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Create a shift by dni and registerNumber
+      tags:
+      - Shifts
+swagger: "2.0"
