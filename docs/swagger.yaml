@@ -19,6 +19,19 @@ definitions:
     - name
     - registration_date
     type: object
+  domain.RequestPatient:
+    properties:
+      address:
+        type: string
+      dni:
+        type: string
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_date:
+        type: string
+    type: object
   web.ErrorApi:
     properties:
       code:
@@ -43,7 +56,79 @@ info:
   title: API Dental Clinic
   version: "1.0"
 paths:
+  /patient:
+    post:
+      consumes:
+      - application/json
+      description: create a patient
+      parameters:
+      - description: Patient to store
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Patient'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Create a patient
+      tags:
+      - patients
   /patients/{id}:
+    delete:
+      description: delete a patient
+      parameters:
+      - description: Patient id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Delete a Patient
+      tags:
+      - patients
     get:
       description: get patient by ID
       parameters:
@@ -63,7 +148,101 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
       summary: Show a patient
+      tags:
+      - patients
+    patch:
+      consumes:
+      - application/json
+      description: update partial a patient
+      parameters:
+      - description: Patient id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Patient to store
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RequestPatient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update partial a patient
+      tags:
+      - patients
+    put:
+      consumes:
+      - application/json
+      description: update a patient
+      parameters:
+      - description: Patient id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Patient to store
+        in: body
+        name: patient
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Patient'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Patient'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update a patient
       tags:
       - patients
 swagger: "2.0"

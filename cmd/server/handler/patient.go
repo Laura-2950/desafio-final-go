@@ -24,6 +24,8 @@ type PatientHandler struct {
 // @Param        id   path      int  true  "Patient ID"
 // @Success      200  {object}  domain.Patient
 // @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
 // @Router       /patients/{id} [get]
 func (h *PatientHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
@@ -46,6 +48,20 @@ func (h *PatientHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &patientFounded)
 }
 
+// Update godoc
+// @Summary      Update a patient
+// @Description  update a patient
+// @Tags         patients
+// @Accept       json
+// @Produce      json
+// @Param        id    path     int    true "Patient id"
+// @Param        token    header   string          true "token"
+// @Param        patient  body     domain.Patient true    "Patient to store"
+// @Success      200  {object}  domain.Patient
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /patients/{id} [put]
 func (h *PatientHandler) Update(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -79,6 +95,20 @@ func (h *PatientHandler) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
+// UpdatePartial godoc
+// @Summary      Update partial a patient
+// @Description  update partial a patient
+// @Tags         patients
+// @Accept       json
+// @Produce      json
+// @Param        id       path     int             true "Patient id"
+// @Param        token    header   string          true  "token"
+// @Param        patient  body     domain.RequestPatient  true  "Patient to store"
+// @Success      200  {object}  domain.Patient
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /patients/{id} [patch]
 func (h *PatientHandler) UpdatePartial(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -113,6 +143,20 @@ func (h *PatientHandler) UpdatePartial(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
+
+// NewPatient godoc
+// @Summary      Create a patient
+// @Description  create a patient
+// @Tags         patients
+// @Accept		 json
+// @Produce      json
+// @Param        patient  body     domain.Patient true    "Patient to store"
+// @Param        token    header   string          true "token"
+// @Success      201  {object}  domain.Patient
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /patient [post]
 func (h *PatientHandler) NewPatient(ctx *gin.Context) {
 	var patient *domain.Patient
 
@@ -146,6 +190,17 @@ func (h *PatientHandler) NewPatient(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newPatient)
 }
 
+// Delete godoc
+// @Summary      Delete a Patient
+// @Description  delete a patient
+// @Tags         patients
+// @Param        id    path     int    true "Patient id"
+// @Param        token    header   string          true "token"
+// @Success      200  string    patient removed successfully
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /patients/{id} [delete]
 func (h *PatientHandler) DeletePatient(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)

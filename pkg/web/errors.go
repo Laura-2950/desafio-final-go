@@ -23,3 +23,7 @@ func NewBadRequestApiError(message string) error {
 func NewInternalServerApiError(message string) error {
 	return &ErrorApi{http.StatusInternalServerError, "internal_server_error", message}
 }
+
+func Unauthorized(message string) error {
+	return &ErrorApi{http.StatusUnauthorized, "unauthorized", message}
+}
