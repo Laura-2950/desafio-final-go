@@ -15,6 +15,19 @@ type DentistHandler struct {
 	DentistService dentist.IService
 }
 
+// NewDentist godoc
+// @Summary      Create a dentist
+// @Description  create a dentist
+// @Tags         Dentists
+// @Accept		 json
+// @Produce      json
+// @Param        dentist  body     domain.Dentist true    "Dentist to store"
+// @Param        token    header   string          true "token"
+// @Success      201  {object}  domain.Dentist
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /dentists [post]
 func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 	var dentist *domain.Dentist
 
@@ -42,7 +55,17 @@ func (h *DentistHandler) NewDentist(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, newDentist)
 }
 
-
+// GetById godoc
+// @Summary      Show a dentist
+// @Description  get dentist by ID
+// @Tags         Dentists
+// @Produce      json
+// @Param        id   path      int  true  "Dentist ID"
+// @Success      200  {object}  domain.Dentist
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /dentists/{id} [get]
 func (h *DentistHandler) GetById(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -64,6 +87,17 @@ func (h *DentistHandler) GetById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &dentistFounded)
 }
 
+// Delete godoc
+// @Summary      Delete a dentist
+// @Description  delete a dentist
+// @Tags         Dentists
+// @Param        id    path     int    true "Dentist id"
+// @Param        token    header   string          true "token"
+// @Success      200  {string}  dentist removed successfully
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /dentists/{id} [delete]
 func (h *DentistHandler) Delete(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -85,6 +119,20 @@ func (h *DentistHandler) Delete(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "dentist removed successfully")
 }
 
+// Update godoc
+// @Summary      Update a dentist
+// @Description  update a dentist
+// @Tags         Dentists
+// @Accept       json
+// @Produce      json
+// @Param        id    path     int    true "Dentist id"
+// @Param        token    header   string          true "token"
+// @Param        dentist  body     domain.Dentist true    "Dentist to store"
+// @Success      200  {object}  domain.Dentist
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /dentists/{id} [put]
 func (h *DentistHandler) Update(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -118,6 +166,20 @@ func (h *DentistHandler) Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, dentist)
 }
 
+// UpdatePartial godoc
+// @Summary      Update partial a dentist
+// @Description  update partial a dentist
+// @Tags         Dentists
+// @Accept       json
+// @Produce      json
+// @Param        id       path     int             true "Dentist id"
+// @Param        token    header   string          true  "token"
+// @Param        dentist  body     domain.RequestDentist  true  "Dentist to store"
+// @Success      200  {object}  domain.Dentist
+// @Failure      400  {object}  web.ErrorApi
+// @Failure      401  {object}  web.ErrorApi
+// @Failure      500  {object}  web.ErrorApi
+// @Router       /dentists/{id} [patch]
 func (h *DentistHandler) UpdatePartial(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
