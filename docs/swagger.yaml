@@ -1,4 +1,19 @@
 definitions:
+  domain.Dentist:
+    properties:
+      id:
+        type: integer
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_number:
+        type: string
+    required:
+    - last_name
+    - name
+    - registration_number
+    type: object
   domain.Patient:
     properties:
       address:
@@ -30,6 +45,15 @@ definitions:
       name:
         type: string
       registration_date:
+        type: string
+    type: object
+  domain.RequestDentist:
+    properties:
+      last_name:
+        type: string
+      name:
+        type: string
+      registration_number:
         type: string
     type: object
   web.ErrorApi:
@@ -95,6 +119,195 @@ paths:
       summary: Create a patient
       tags:
       - patients
+  /dentists:
+    post:
+      consumes:
+      - application/json
+      description: create a dentist
+      parameters:
+      - description: Dentist to store
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Create a dentist
+      tags:
+      - dentists
+  /dentists/{id}:
+    delete:
+      description: delete a dentist
+      parameters:
+      - description: Dentist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Delete a dentist
+      tags:
+      - dentists
+    get:
+      description: get dentist by ID
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Show a dentist
+      tags:
+      - dentists
+    patch:
+      consumes:
+      - application/json
+      description: update partial a dentist
+      parameters:
+      - description: Dentist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Dentist to store
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RequestDentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update partial a dentist
+      tags:
+      - dentists
+    put:
+      consumes:
+      - application/json
+      description: update a dentist
+      parameters:
+      - description: Dentist id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: Dentist to store
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Dentist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Dentist'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/web.ErrorApi'
+      summary: Update a dentist
+      tags:
+      - dentists
   /patients/{id}:
     delete:
       description: delete a patient
